@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='http://cdn.repository.webfont.com/webfonts/nomal/141517/47103/5f939bbcf629d84d70ab400e.css' rel='stylesheet' type='text/css' />
+</head>
+<style>
+body{
+background-color:black;
+font-family:Gotham;
+font-weight:400;
+color:white;
+}
+
+.button{
+    text-transform:uppercase;
+    background-color: #ec008c;
+    font-weight:900;
+    line-height:1.1;
+    padding:15px 30px;
+    color:white;
+    text-decoration: none;
+    border-radius:10px;
+    letter-spacing: 1px;
+    transition-property: background-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+.button:hover{
+    background-color:orange;
+}
+.Javascript-logo{
+    position: absolute;
+    top: 28px;
+    left: 40px;
+    height: 65px;
+}
+header{
+    display:block;
+    height:120px;
+
+}
+.header-guide{
+    position:absolute;
+    right:40px;
+    top:40px;
+}
+.header-link{
+color:white;
+margin-left:50px;
+text-decoration: none;
+font-weight:600;
+}
+.header-link:hover{
+    text-decoration-line: underline;
+}
+#content{
+   display:block;
+}
+.block-section{
+    position:relative;
+    background-image:url('https://www.javascript.com/content/pluralsight/en/jscom/jcr:content/main/generic_block/image-res.img.1ac6a8d1-4edf-4603-8eb3-b3f0b184a4ed.jpg');
+    background-position:center;
+    min-height:510px;
+    padding-top:100px;
+    padding-bottom:150px;
+    color: #ddd;
+    flex-direction:column;
+    text-align:center;
+    display:flex;
+}
+
+.title-section1{
+    color:grey;
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px
+}
+.title-section2{
+    color:white;
+    font-weight: 2000;
+    line-height:0.01;
+    text-transform: none;
+    font-size:40px;
+    margin:0 0 30px;
+}
+#Title{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-left:15px;
+    padding-right:15px;
+}
+.text-section3{
+    text-align:center;
+    font-size: 1.5em;
+    font-weight:800;
+    line-height:200%;
+    width:900px;
+}
+#input1{
+    background: rgba(18,18,18,.9);
+    height: 60px;
+    width:900px;
+    padding: 10px 10px 15px 40px;
+    border: 0;
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    font-family: monospace;
+}
+.input-arrow{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(45deg);
+    top: 50%;
+    left: 5px;
+    margin-top: -9px;
+    position: absolute;
+}
+.block-section2{
+    padding:100px 0;
+    display:block;
+}
+.flexbox{
+    display:flex;
+    flex-direction: row;   
+    position:relative;
+    bottom:50px;
+    height:479px;
+    background-size:cover;
+}
+
+.card1{
+    background-image:url('https://www.javascript.com/content/pluralsight/en/jscom/jcr:content/main/generic_block_614019370/parsys/flex_block/parsys/flex_open_block/image-res.img.bb215c17-b329-4d59-a471-0fb11af8a5a1.jpg');
+    background-position:center;
+    background-size:cover;
+    width: 33.333%;
+    height:100%;
+}
+.card2{
+    background-image:url('https://www.javascript.com/content/pluralsight/en/jscom/jcr:content/main/generic_block_614019370/parsys/flex_block/parsys/flex_open_block_copy/image-res.img.cbf3ec54-63be-4034-8e93-4ededeae5518.jpg');
+    background-position:center;
+    width: 33.333%;
+    height:100%;
+    
+}
+.card3{
+    background-image:url('https://www.javascript.com/content/pluralsight/en/jscom/jcr:content/main/generic_block_614019370/parsys/flex_block/parsys/flex_open_block_copy_1521714602/image-res.img.8c81be01-9546-438f-8f8f-6ff440ede17b.jpg');
+    background-position:center;
+    width: 33.333%;
+    height:100%;
+  
+}
+.spacer{
+    height:120px;
+    width:100%;
+}
+.greytitle{
+    color:#aaa!important;
+    font-size:14px;
+    letter-spacing: 3px;
+    font-weight:800;
+    text-align:center;
+}
+.texttitle{
+    color:white;
+    text-align:center;
+    font-weight:bold;
+    font-size:34px;
+    line-height:200%;
+}
+.bottom_button{
+    position:relative;
+    left:33%;
+}
+.left-content{
+   position:relative;
+   display:flex;
+   align-items:flex-start;
+}
+.bottom_logo{
+    position:absolute;
+    bottom:0px;
+    left:0px;
+}
+.right-content{
+    position:absolute;
+    right:0px;
+    color:white;
+}
+</style>
+<body>
+    <header>
+        <a href="https://www.javascript.com/">
+            <img src="https://www.javascript.com/etc/clientlibs/pluralsight/main/images/js-logo.png" class="Javascript-logo">
+        </a>
+        <div class="header-guide">
+    <a href="https://www.javascript.com/try" class="button">Try Javascript</a>
+    <a href="https://www.javascript.com/learn/strings" class="header-link">Learn</a>
+    <a href="https://www.javascript.com/resources" class="header-link">Resources</a>
+    <a href="https://www.javascript.com/about" class="header-link">About</a>
+        </div>
+    </header>
+
+    <div id="content">
+        <div class="block-section">
+            <div id="Title">
+                <div class="title-section1">
+                    <h2>
+                        Ready to try
+                    </h2>
+                </div>
+                <div class="title-section2">
+                    <h1>JavaScript?</h1>
+                </div>
+                <div class="text-section3">
+                    <p>
+                        Begin learning here by typing in your first name surrounded by quotation marks, and
+                         ending with a semicolon. For example, you could type the name <code>"Jamie";</code>
+                         and then hit enter.
+                    </p>
+                </div>
+                <div class="input">
+                    <input type="text" id="input1">
+                    <span class="input-arrow"></span>
+                </div>
+            </div>
+        </div>
+        <div class="block-section2">
+            <div class="flexbox">
+                <div class="card1">
+                    <div class="spacer"></div>
+                    <div class="title-section">
+                        <div class="greytitle">
+                            <h3>
+                            <strong>INTRODUCTION</strong>
+                            </h3>
+                        </div>
+                        <div class="texttitle">
+                            <p>
+                                Courses and paths to get you going
+                            </p>
+                        </div>
+                        <div class=bottom_button>
+                            <a href="https://www.pluralsight.com/product/paths" target="_blank" sytle="min-width:180px;" class="button">
+                            Get Started
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card2">
+                    <div class="spacer"></div>
+                    <div class="title-section">
+                        <div class="greytitle">
+                            <h3>
+                            <strong>SKILL ASSESSMENT</strong>
+                            </h3>
+                        </div>
+                        <div class="texttitle">
+                            <p>
+                                Know where your skills stand
+                            </p>
+                        </div>
+                        <div class=bottom_button>
+                            <a href="https://www.pluralsight.com/product/skill-iq" target="_blank" sytle="min-width:180px;" class="button">
+                                MEASURE YOUR SKILLS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card3">
+                    <div class="spacer"></div>
+                    <div class="title-section">
+                        <div class="greytitle">
+                            <h3>
+                            <strong>INTRODUCTION</strong>
+                            </h3>
+                        </div>
+                        <div class="texttitle">
+                            <p>
+                                See where Javascript ranks
+                            </p>
+                        </div>
+                        <div class=bottom_button>
+                            <a href="https://www.pluralsight.com/tech-index" target="_blank" sytle="min-width:180px;" class="button">
+                                DIVE INTO THE DATA
+                            </a>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>
+    </div>
+   <footer class="footer">
+       <div class="right-content">
+        <p><a href="https://www.javascript.com/learn/strings">Learn</a> / <a href="https://www.javascript.com/resources">Resources</a> / <a href="https://www.javascript.com/about">about</a></p>
+       </div>
+       <div class="left-content">
+           <div class="bottom_logo">
+                <a href="https://www.javascript.com/">
+                    <img src="https://www.javascript.com/etc/clientlibs/pluralsight/main/images/js-logo.png" style="transform:scale(0.3)" >
+                </a>
+            </div>
+            <div>
+                <p>© 2016 - 2020 JavaScript.com</p>
+            </div>
+       </div>
+   </footer>
+
+
+
+
+
+
+
+
+</body>
+</html>
