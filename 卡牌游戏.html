@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Card Gaming</title>
+<script>
+//生成从minNum到maxNum的随机整数
+function randomNum(minNum,maxNum){ 
+    switch(arguments.length){ 
+        case 1: 
+            return parseInt(Math.random()*minNum+1,10); 
+        break; 
+        case 2: 
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+        break; 
+            default: 
+                return 0; 
+            break; 
+    } 
+} 
+//1.准备阶段
+//1.1 创立牌组
+//定义卡牌的构造函数，属性包括：color，data，以及flag来确定卡牌是否在牌堆里
+function Card(color,data,flag,seq){
+    this.seq = seq;
+    this.color = color;
+    this.data = data;
+    this.flag = flag;
+    this.used = function(){this.flag = 0};  //当卡片抽出，flag置0
+}
+var cardPile = [];
+//存放卡牌种类
+var cardType = [2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
+var cardSeq = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+//循环创建卡牌对象，并且填充进入牌堆数组
+function initCardPile(){
+    for(i=0;i<13;i++){
+        cardPile[i] = new Card('梅花',cardType[i],1,cardSeq[i]);
+    }
+    for(i=0;i<13;i++){
+        cardPile[i+13] = new Card('方块',cardType[i],1,cardSeq[i]);
+    }
+    for(i=0;i<13;i++){
+     cardPile[i+26] = new Card('红心',cardType[i],1,cardSeq[i]);
+    }
+    for(i=0;i<13;i++){
+        cardPile[i+39] = new Card('黑桃',cardType[i],1,cardSeq[i]);
+    }
+}
+//1.2 发牌，并分配位置
+function Player(number,cards){
+    this.number = number;
+    this.cardInHand = [];
+    for(j=0;j<5;j++){
+        this.cardInHand[j] = cards[j];
+    }
+}
+//将玩家手牌进行排序
+function seqPlayer(){
+    for(i=0;i<4;i++){
+        for(j=0;j<4-i;j++){
+            if(realPlayer.cardInHand[j].seq>realPlayer.cardInHand[j+1].seq){
+                var temp = realPlayer.cardInHand[j+1];
+                realPlayer.cardInHand[j+1] = realPlayer.cardInHand[j];
+                realPlayer.cardInHand[j] = temp;
+            }
+        }
+    }
+}
+//将机器人手牌进行排序
+function seqRobot(number){
+    for(i=0;i<4;i++){
+        for(j=0;j<4-i;j++){
+            if(robots[number-1].cardInHand[j].seq>robots[number-1].cardInHand[j+1].seq){
+                var temp = robots[number-1].cardInHand[j+1];
+                robots[number-1].cardInHand[j+1] = robots[number-1].cardInHand[j];
+                robots[number-1].cardInHand[j] = temp;
+            }
+        }
+    }
+}
+//随机从牌堆中获取牌组
+function getCards(){
+    var Cards = [];
+    var counter = 0; 
+    while(counter<5){
+        var random = randomNum(0,51);
+            if(cardPile[random].flag==1){
+             Cards[counter] = cardPile[random];
+             counter = counter+1;
+             cardPile[random].used();
+         }
+     }
+     return Cards;
+ }
+//创建机器人，这里创建4个机器人
+var robots = [];
+function creatRobots(){
+    for(k=0;k<4;k++){
+        robots[k] = new Player(k+1,getCards());
+        seqRobot(k+1);
+    }
+}
+//创建玩家
+var realPlayer;
+function creatRealPlayer(){
+    realPlayer = new Player(5,getCards());
+    seqPlayer();
+}
+//2.游戏阶段
+//展示手牌(玩家)
+function showCard(){
+    var str2='你现在的手牌为：\n';
+    for(i=0;i<5;i++){
+        str2 = str2+realPlayer.cardInHand[i].color+realPlayer.cardInHand[i].data+' ';
+    }
+    alert(str2);
+}
+//更新手牌
+function updateCard(){
+    var str1 = '你的手牌被交换了，你现在的手牌为：\n'
+    seqPlayer();
+    for(i=0;i<5;i++){
+        str1 = str1+realPlayer.cardInHand[i].color+realPlayer.cardInHand[i].data+' ';
+    }
+    alert(str1);
+}
+//2.1 机器人回合
+function robotsRound(number){
+    var cardExchangeNumber = randomNum(0,3);  //想要更换多少张卡牌
+    var playerRandom = randomNum(1,5);        //想要与几号玩家更换卡牌
+    while(playerRandom==number){              //避免自己与自己换牌
+        playerRandom = randomNum(1,5);
+    }
+    while(cardExchangeNumber>0){
+        if(playerRandom = 5){
+             var randomCard1 = randomNum(0,4);
+             var randomCard2 = randomNum(0,4);
+             var temp = robots[number-1].cardInHand[randomCard1];
+             robots[number-1].cardInHand[randomCard1] = realPlayer.cardInHand[randomCard2];
+             realPlayer.cardInHand[randomCard2] = temp;
+            updateCard();
+            cardExchangeNumber = cardExchangeNumber - 1;
+        }
+        else{
+            randomCard1 = randomNum(0,4);
+            randomCard2 = randomNum(0,4);
+            temp = robots[number-1].cardInHand[randomCard1];
+            robots[number-1].cardInHand[randomCard1] = robots[playerRandom-1].cardInHand[randomCard2]; 
+            robots[playerRandom-1].cardInHand[randomCard2] = temp;
+            cardExchangeNumber = cardExchangeNumber - 1;
+        }
+    }
+    seqRobot(number);
+}
+//2.2 玩家回合
+function playerRound(){
+    var cardExchangeNumber = prompt('轮到你了，你想交换几张卡牌？');
+    var playerNumber;
+    var cardNumber1;
+    var cardNumber2;
+    while(cardExchangeNumber>3||cardExchangeNumber<0){
+        var cardExchangeNumber = prompt('输入错误，请输入0~3的数字')
+    }
+    if(cardExchangeNumber!=0){
+        playerNumber = prompt('你想与几号玩家交换？');
+        while(cardExchangeNumber>0){
+            cardNumber1 = prompt('你想交换你的第几张卡牌？')
+            cardNumber2 = prompt('你想交换他的第几张卡牌？')
+            var temp = realPlayer.cardInHand[cardNumber1-1];
+            realPlayer.cardInHand[cardNumber1-1] = robots[playerNumber-1].cardInHand[cardNumber2-1];
+            robots[playerNumber-1].cardInHand[cardNumber2-1] = temp;
+            seqPlayer();//排序
+            updateCard();
+            cardExchangeNumber = cardExchangeNumber - 1;
+        }
+    }else alert('你选择跳过你的回合');
+}
+//2.3整合游戏阶段
+function startRound(){
+	    showCard();//展示玩家的手牌
+	    playerRound();//玩家的回合
+		for(i=0;i<4;i++){
+			robotsRound(i+1);
+        }
+}
+//3.结束阶段
+//3.1 评价玩家的牌
+//牌组的rank为1～10
+//3.1.1 判断是否是顺子
+function isFlush(Cards){
+    for(i=0;i<4;i++){
+        if(Cards[i+1].seq!=(Cards[i].seq+1)) return false;
+    }
+    return true;
+}
+//3.1.2 判读花色是否相同
+function isSameColor(Cards){
+    for(i=0;i<4;i++){
+        if(Cards[i+1].color!=Cards[i].color) return false;
+    }
+    return true;
+}
+//3.1.3 是否有4张牌相同
+function isFourKind(Cards){
+    if(Cards[0].seq!=Cards[1].seq){
+        for(i=0;i<3;i++){
+            if(Cards[i+1].seq!=Cards[i+2].seq) return false;
+        }
+        return Cards[1];
+    }else{
+        for(i=0;i<3;i++){
+            if(Cards[i].seq!=Cards[i+1].seq) return false;
+        }
+        return true;
+    }
+}
+//3.1.4 是否3张牌相同
+function isThreeKind(Cards){
+    var flag = 1;
+    for(i=0;i<3;i++){
+        for(j=0;j<2;j++){
+            if(Cards[i+j].seq==Cards[i+j+1].seq)
+                flag = flag + 1;
+            if(flag==3) return true;
+        }
+        flag = 1;        
+    }
+    return false;
+}
+//3.1.5 数对子
+function findPairs(Cards){
+    var pairNum = 0;
+    for(i=0;i<4;i++){
+        if(Cards[i].seq==Cards[i+1].seq)
+            pairNum = pairNum + 1;
+    }
+    return pairNum;
+}
+//3.1.6 给出rank值的函数
+function judge(Cards){
+    var rank = null;
+    //判断是否是顺子
+    if(isFlush(Cards)){
+        rank = 6;    //不同花色的顺子rank=6
+        if(isSameColor(Cards)){
+            rank = 2; //同花顺rank=2
+            if(Cards[4].seq==14)
+                rank = 1;//皇家同花顺rank=1
+        }
+    }
+
+    //判断是否为四条
+    if(isFourKind(Cards)) rank = 3;
+    //判断是否为三条
+    if(isThreeKind(Cards)&&!(isFourKind(Cards))){
+        if(findPairs(Cards)==3) rank = 4;//葫芦rank=4;
+        rank = 7;//三条rank=7
+    }
+    if(findPairs(Cards)==1) rank = 9;
+    if(findPairs(Cards)==2&&!(isThreeKind(Cards))) rank = 8; //两对rank = 8
+    if(findPairs(Cards)==0){
+         rank = 10;
+         if(isSameColor(Cards))
+            rank = 5; //单同花 rank = 5
+        } //没有对子rank=10
+        return rank;
+}
+var Rank = [];
+//3.2 展示手牌并且展示rank数值
+function rank(){
+    var str = [];
+    var temp = "";
+    Rank[0] = judge(robots[0].cardInHand);
+    Rank[1] = judge(robots[1].cardInHand);
+    Rank[2] = judge(robots[2].cardInHand);
+    Rank[3] = judge(robots[3].cardInHand);
+    Rank[4] = judge(realPlayer.cardInHand);
+    for(i=0;i<4;i++){
+        temp = "";
+        for(j=0;j<5;j++){
+            temp = temp + robots[i].cardInHand[j].color + robots[i].cardInHand[j].data + " " ;
+        }
+        temp = temp + "rank:" + Rank[i];
+        str[i] = temp;
+    }
+    temp = "";
+    for(i=0;i<5;i++){
+        temp = temp + realPlayer.cardInHand[i].color + realPlayer.cardInHand[i].data + " ";
+    }
+    str[4] = temp + "rank:" + Rank[4];
+    alert('robot1:'+str[0]+'\n'+'robot2:'+str[1]+'\n'+'robot3:'+str[2]+'\n'+'robot4:'+str[3]+'\n'+'player:'+str[4]+'\n');
+}
+var winGameNum = [0,0,0,0,0];
+function result(){
+    var MAX = Rank[0];
+    for(i=0;i<5;i++){
+        if(Rank[i]>MAX)
+            MAX = Rank[i];
+    }
+    for(j=0;j<5;j++){
+        if(Rank[j]==MAX)
+            winGameNum[j] = winGameNum[j] + 1;
+    }
+    alert('胜利次数:\n'+'robot1: '+winGameNum[0]+' \n'+'robot2: '+winGameNum[1]+' \n'+'robot3: '+winGameNum[2]+' \n'
+    +'robot4: '+winGameNum[3]+' \n'+'player: '+winGameNum[4]+' \n')
+}
+function finish(){
+    var MAX = winGameNum[0];
+    for(i=0;i<5;i++){
+        if(winGameNum[i]>MAX)
+            MAX = winGameNum[i];
+    }
+    for(j=0;j<5;j++){
+        if(winGameNum[j]==MAX)
+            if(j>=0&&j<=4)
+                alert('robot'+j+'wins');
+            else alert('player wins')
+    }
+}
+for(i=0;i<20;i++){
+//准备阶段
+initCardPile();//初始化牌组
+creatRobots();//创建机器人玩家，安排次序并发牌
+creatRealPlayer();//创建玩家，安排次序并发牌
+//游戏阶段
+startRound();//调用回合函数
+//结束阶段
+rank();
+result();
+}
+</script>
+
+
+</head>
+<body>
+
+</body>
+</html>
